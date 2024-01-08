@@ -7,6 +7,8 @@
 # include <stdio.h>
 # include <errno.h>
 # include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 # include "libft.h"
 # include "ft_printf.h"
 # include "get_next_line.h"
@@ -15,6 +17,7 @@ typedef struct s_data
 {
 	pid_t	pid;
 	int		pipefd[2];
+	int		input_fd;
 	char	*input;
 	char	**paths;
 	char	*cmd_name;

@@ -46,14 +46,14 @@ void	error_exit(char *str, t_data *data)
 	{
 		i = -1;
 		while (data->cmd_argv[++i])
-			free(data->cmd_argv[++i]);
+			free(data->cmd_argv[i]);
 		free(data->cmd_argv);
 	}
 	if (data->paths)
 	{
 		i = -1;
 		while (data->paths[++i])
-			free(data->paths[++i]);
+			free(data->paths[i]);
 		free(data->paths);
 	}
 	exit(EXIT_FAILURE);
@@ -98,15 +98,18 @@ void	child(char *cmd, char **ep, t_data *data)
 		error_exit("malloc issue\n", data);
 	if (!find_cmd(data))
 		error_exit("command not found\n", data);
+	close(data->pipefd[1]);
+	dup2(data->pipefd[0], 0);
+	close(data->pipefd[2]);
 	execve(data->cmd_path, data->cmd_argv, ep);
 }
 
 void	init_data(t_data *data, char **ep)
 {
-	data->input = NULL;
 	data->cmd_name = NULL;
 	data->cmd_argv = NULL;
 	data->cmd_path = NULL;
+	data->input = NULL;
 	data->paths = NULL;
 	while (*ep)
 	{
@@ -125,14 +128,26 @@ int	main(int ac, char **av, char **ep)
 	if (ac != 5)
 		error_exit("Wrong number of arguments\n", &data);
 	init_data(&data, ep);
-	data.input = read_file(av[1]);//no need to pares input
-	if (!data.input)
+//	data.input = read_file(av[1]);
+//	if (!data.input)
+//		error_exit("No such file or directory\n", &data);
+	data.input_fd = open(av[1], O_RDONLY);
+	if (data.input_fd == -1)
 		error_exit("No such file or directory\n", &data);
+	if (pipe(data.pipefd) == -1)
+		error_exit("Pipe error\n", &data);
+	close(data.pipefd[0]);
+	dup2(data.input_fd, data.pipefd[1]);
+	close(data.pipefd[1]);
 	data.pid = fork();
+	if (data.pid == -1)
+		error_exit("Fork error\n", &data);
 	if (data.pid == 0)
 		child(av[2], ep, &data);
 	wait(NULL);
 //	data.pid = fork();
+//	if (data.pid == -1)
+//		error_exit("Fork error\n", &data);
 //	if (data.pid == 0)
 //		child(av[3], ep, &data);
 //	wait(NULL);
