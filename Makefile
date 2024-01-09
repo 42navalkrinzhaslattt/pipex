@@ -1,6 +1,6 @@
 NAME	= pipex
 
-SRC		= pipex.c
+SRC		= pipex.c exit.c child.c parse.c
 
 BONUS_SRC	=
 

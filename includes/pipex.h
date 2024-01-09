@@ -13,23 +13,34 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 
+typedef struct s_cmd
+{
+	char	*name;
+	char	**argv;
+	char	*path;
+}	t_cmd;
+
 typedef struct s_data
 {
 	pid_t	pid;
 	int		pipefd[2];
 	int		input_fd;
-	char	*input;
+	int		output_fd;
 	char	**paths;
-	char	*cmd_name;
-	char	**cmd_argv;
-	char	*cmd_path;
+	t_cmd	*cmd;
+	int		nb_cmd;
 }	t_data;
 
-char	*read_file(char *file);
+//pipex.c
+int		main(int ac, char **av, char **ep);
+
+//exit.c
+void	free_cmd(t_cmd cmd);
 void	error_exit(char *str, t_data *data);
-int		find_cmd(t_data *data);
-void	child(char *cmd, char **ep, t_data *data);
-void	init_data(t_data *data, char **ep);
-int	main(int ac, char **av, char **ep);
+
+//parse.c
+int		find_cmd(t_data *data, int n);
+void	parse_cmd(char *cmd, t_data *data, int n);
+void	init_data(t_data *data, char **av, char **ep, int ac);
 
 #endif
