@@ -34,7 +34,8 @@ void	error_exit(char *str, t_data *data)
 {
 	int	i;
 
-	perror(str);
+	if (ft_strncmp(str, "OK", 3))
+		perror(str);
 	i = -1;
 	if (data->cmd != 0)
 		while (++i < data->nb_cmd)

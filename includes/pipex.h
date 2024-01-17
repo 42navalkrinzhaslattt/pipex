@@ -22,7 +22,7 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
-	pid_t	pid;
+	pid_t	*pid;
 	int		pipefd[2];
 	int		input_fd;
 	int		output_fd;
@@ -33,6 +33,7 @@ typedef struct s_data
 
 //pipex.c
 int		main(int ac, char **av, char **ep);
+void	child1(t_data *data, char **ep);
 
 //exit.c
 void	free_cmd(t_cmd cmd);

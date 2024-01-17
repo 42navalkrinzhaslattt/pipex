@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "pipex.h"
+
 int	find_cmd(t_data *data, int n)
 {
 	char	*temp;
@@ -44,7 +46,7 @@ void	parse_cmd(char *cmd, t_data *data, int n)
 		error_exit("malloc", data);
 	data->cmd[n].name[0] = '/';
 	ft_strlcpy(data->cmd[n].name + 1, cmd, i + 1);
-	data->cmd[n].argv = ft_split(cmd + i + 1, ' ');
+	data->cmd[n].argv = ft_split(cmd, ' ');
 	if (!data->cmd[n].argv)
 		error_exit("malloc", data);
 	if (!find_cmd(data, n))
@@ -61,6 +63,7 @@ void	init_data(t_data *data, char **av, char **ep, int ac)
 		error_exit("file", data);
 	data->nb_cmd = ac - 3;
 	data->cmd = ft_calloc(data->nb_cmd, sizeof(t_cmd));
+	data->pid = ft_calloc(data->nb_cmd, sizeof(pid_t));
 	data->paths = NULL;
 	while (*ep)
 	{
@@ -71,6 +74,6 @@ void	init_data(t_data *data, char **av, char **ep, int ac)
 	i = -1;
 	while (++i < ac - 3)
 		parse_cmd(av[i + 2], data, i);
-	if (!data->paths || !data->cmd)
+	if (!data->paths || !data->cmd || data->pid)
 		error_exit("malloc", data);
 }
