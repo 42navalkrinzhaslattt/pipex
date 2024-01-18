@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "pipex.h"
-//#include "../includes/pipex.h"
+#include "../includes/pipex.h"
 
 void	free_cmd(t_cmd cmd)
 {

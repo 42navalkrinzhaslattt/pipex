@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "../includes/pipex.h"
 
 int	find_cmd(t_data *data, int n)
 {
@@ -57,13 +58,12 @@ void	init_data(t_data *data, char **av, char **ep, int ac)
 {
 	int	i;
 
-	data->input_fd = open(av[1], O_RDONLY);
-	data->output_fd = open(av[ac - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (data->input_fd == -1 || data->output_fd == -1)
-		error_exit("file", data);
+	data->infile = open(av[1], O_RDONLY);
+	data->outfile = open(av[ac - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (data->infile == -1 || data->outfile == -1)
+		error_exit("open", data);
 	data->nb_cmd = ac - 3;
 	data->cmd = ft_calloc(data->nb_cmd, sizeof(t_cmd));
-	data->pid = ft_calloc(data->nb_cmd, sizeof(pid_t));
 	data->paths = NULL;
 	while (*ep)
 	{
@@ -74,6 +74,6 @@ void	init_data(t_data *data, char **av, char **ep, int ac)
 	i = -1;
 	while (++i < ac - 3)
 		parse_cmd(av[i + 2], data, i);
-	if (!data->paths || !data->cmd || data->pid)
+	if (!data->paths || !data->cmd)
 		error_exit("malloc", data);
 }

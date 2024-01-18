@@ -22,22 +22,22 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
-	pid_t	*pid;
 	int		pipefd[2];
-	int		input_fd;
-	int		output_fd;
+	int		infile;
+	int		outfile;
 	char	**paths;
 	t_cmd	*cmd;
 	int		nb_cmd;
 }	t_data;
 
-//pipex.c
-int		main(int ac, char **av, char **ep);
-void	child1(t_data *data, char **ep);
-
 //exit.c
 void	free_cmd(t_cmd cmd);
 void	error_exit(char *str, t_data *data);
+
+//pipex.c
+void	redirect(int oldfd, int newfd, t_data *data);
+int		main(int ac, char **av, char **ep);
+void	child(t_data *data, char **ep, int n);
 
 //parse.c
 int		find_cmd(t_data *data, int n);
