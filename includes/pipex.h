@@ -22,7 +22,7 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
-	int		pipefd[2];
+	int		*pipefd;
 	int		infile;
 	int		outfile;
 	char	**paths;
@@ -35,13 +35,14 @@ void	free_cmd(t_cmd cmd);
 void	error_exit(char *str, t_data *data);
 
 //pipex.c
-void	redirect(int oldfd, int newfd, t_data *data);
+void	redirect(int input_fd, int output_fd, t_data *data);
 int		main(int ac, char **av, char **ep);
 void	child(t_data *data, char **ep, int n);
 
 //parse.c
 int		find_cmd(t_data *data, int n);
 void	parse_cmd(char *cmd, t_data *data, int n);
+void	assign_data(t_data *data, char **av, char **ep, int ac);
 void	init_data(t_data *data, char **av, char **ep, int ac);
 
 #endif

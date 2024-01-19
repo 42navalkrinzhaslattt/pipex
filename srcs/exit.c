@@ -49,5 +49,10 @@ void	error_exit(char *str, t_data *data)
 			free(data->paths[i]);
 		free(data->paths);
 	}
+	i = -1;
+	while (++i < (data->nb_cmd - 1) * 2)
+		close(data->pipefd[i]);
+	if (data->pipefd)
+		free(data->pipefd);
 	exit(EXIT_FAILURE);
 }

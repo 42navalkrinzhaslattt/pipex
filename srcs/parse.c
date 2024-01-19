@@ -54,7 +54,7 @@ void	parse_cmd(char *cmd, t_data *data, int n)
 		error_exit("malloc", data);
 }
 
-void	init_data(t_data *data, char **av, char **ep, int ac)
+void	assign_data(t_data *data, char **av, char **ep, int ac)
 {
 	int	i;
 
@@ -62,9 +62,7 @@ void	init_data(t_data *data, char **av, char **ep, int ac)
 	data->outfile = open(av[ac - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (data->infile == -1 || data->outfile == -1)
 		error_exit("open", data);
-	data->nb_cmd = ac - 3;
 	data->cmd = ft_calloc(data->nb_cmd, sizeof(t_cmd));
-	data->paths = NULL;
 	while (*ep)
 	{
 		if (!ft_strncmp(*ep, "PATH=", 5))
@@ -74,6 +72,21 @@ void	init_data(t_data *data, char **av, char **ep, int ac)
 	i = -1;
 	while (++i < ac - 3)
 		parse_cmd(av[i + 2], data, i);
-	if (!data->paths || !data->cmd)
+	data->pipefd = ft_calloc((data->nb_cmd - 1) * 2, sizeof(int));
+	if (!data->paths || !data->cmd || !data->pipefd)
 		error_exit("malloc", data);
+	while (--ac - 4 >= 0)
+		if (pipe(data->pipefd + 2 * ac - 8) == -1)
+			error_exit("pipe", data);
+}
+
+void	init_data(t_data *data, char **av, char **ep, int ac)
+{
+	data->cmd = NULL;
+	data->paths = NULL;
+	data->nb_cmd = ac - 3;
+	data->pipefd = NULL;
+	data->outfile = -1;
+	data->infile = -1;
+	assign_data(data, av, ep, ac);
 }
