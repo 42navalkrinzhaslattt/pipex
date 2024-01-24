@@ -51,13 +51,11 @@ void	parse_cmd(char *cmd, t_data *data, int n)
 	if (!data->cmd[n].argv)
 		error_exit("malloc", data);
 	if (!find_cmd(data, n))
-		error_exit("malloc", data);
+		perror(cmd);
 }
 
 void	assign_data(t_data *data, char **av, char **ep, int ac)
 {
-	int	i;
-
 	data->infile = open(av[1], O_RDONLY);
 	data->outfile = open(av[ac - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (data->infile == -1 || data->outfile == -1)
@@ -69,9 +67,6 @@ void	assign_data(t_data *data, char **av, char **ep, int ac)
 			data->paths = ft_split(*ep + 5, ':');
 		ep++;
 	}
-	i = -1;
-	while (++i < ac - 3)
-		parse_cmd(av[i + 2], data, i);
 	data->pipefd = ft_calloc((data->nb_cmd - 1) * 2, sizeof(int));
 	if (!data->paths || !data->cmd || !data->pipefd)
 		error_exit("malloc", data);

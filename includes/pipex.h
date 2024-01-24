@@ -37,7 +37,7 @@ void	error_exit(char *str, t_data *data);
 //pipex.c
 void	redirect(int input_fd, int output_fd, t_data *data);
 int		main(int ac, char **av, char **ep);
-void	child(t_data *data, char **ep, int n);
+void	child(t_data *data, char *cmd, int n, char **ep);
 
 //parse.c
 int		find_cmd(t_data *data, int n);

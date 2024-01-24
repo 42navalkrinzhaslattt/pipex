@@ -28,7 +28,7 @@ void	close_pipes()
 
 }
 
-void	child(t_data *data, char **ep, int n)
+void	child(t_data *data, char *cmd, int n, char **ep)
 {
 	pid_t		pid;
 
@@ -44,6 +44,7 @@ void	child(t_data *data, char **ep, int n)
 		else
 			redirect(data->pipefd[n * 2 - 2], data->pipefd[n * 2 + 1] , data);
 		close_pipes();
+		parse_cmd(cmd, data, n);//add error handling
 		execve(data->cmd[n].path, data->cmd[n].argv, ep);
 	}
 }
@@ -58,7 +59,7 @@ int	main(int ac, char **av, char **ep)
 		write(2, "Wrong number of arguments\n", 26);
 		exit(EXIT_FAILURE);
 	}
-	child(&data, ep, 0);
-	child(&data, ep, 1);
+	child(&data, av[2], 0, ep);
+	child(&data, av[3], 1, ep);
 	error_exit("OK", &data);
 }
