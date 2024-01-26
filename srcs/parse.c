@@ -13,52 +13,11 @@
 #include "pipex.h"
 #include "../includes/pipex.h"
 
-int	find_cmd(t_data *data, int n)
-{
-	char	*temp;
-	int		i;
-
-	i = -1;
-	while (data->paths[++i])
-	{
-		temp = ft_strjoin(data->paths[i], data->cmd[n].name);
-		if (!temp)
-			error_exit("malloc", data);
-		if (!access(temp, X_OK))
-		{
-			data->cmd[n].path = temp;
-			return (1);
-		}
-		free(temp);
-	}
-	data->cmd[n].path = NULL;
-	return (0);
-}
-
-void	parse_cmd(char *cmd, t_data *data, int n)
-{
-	int	i;
-
-	i = 0;
-	while (cmd[i] != ' ' && cmd[i] != 0)
-		i++;
-	data->cmd[n].name = ft_calloc(i + 2, sizeof(*cmd));
-	if (!data->cmd[n].name)
-		error_exit("malloc", data);
-	data->cmd[n].name[0] = '/';
-	ft_strlcpy(data->cmd[n].name + 1, cmd, i + 1);
-	data->cmd[n].argv = ft_split(cmd, ' ');
-	if (!data->cmd[n].argv)
-		error_exit("malloc", data);
-	if (!find_cmd(data, n))
-		perror(cmd);
-}
-
 void	assign_data(t_data *data, char **av, char **ep, int ac)
 {
 	data->infile = open(av[1], O_RDONLY);
 	data->outfile = open(av[ac - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (data->infile == -1 || data->outfile == -1)
+	if (data->infile == -1 || data->outfile == -1)// remove infile error
 		error_exit("open", data);
 	data->cmd = ft_calloc(data->nb_cmd, sizeof(t_cmd));
 	while (*ep)
@@ -68,7 +27,7 @@ void	assign_data(t_data *data, char **av, char **ep, int ac)
 		ep++;
 	}
 	data->pipefd = ft_calloc((data->nb_cmd - 1) * 2, sizeof(int));
-	if (!data->paths || !data->cmd || !data->pipefd)
+	if (!data->paths || !data->pipefd)
 		error_exit("malloc", data);
 	while (--ac - 4 >= 0)
 		if (pipe(data->pipefd + 2 * ac - 8) == -1)

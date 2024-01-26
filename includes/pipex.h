@@ -28,21 +28,24 @@ typedef struct s_data
 	char	**paths;
 	t_cmd	*cmd;
 	int		nb_cmd;
+	int		status;
 }	t_data;
 
+//child.c
+void	close_pipes(t_data *data, int n);
+void	redirect(int input_fd, int output_fd, t_data *data);
+void	child(t_data *data, char *cmd, int n, char **ep);;
+
 //exit.c
-void	free_cmd(t_cmd cmd);
+void	free_cmd(t_cmd *cmd);
 void	error_exit(char *str, t_data *data);
 
 //pipex.c
-void	redirect(int input_fd, int output_fd, t_data *data);
 int		main(int ac, char **av, char **ep);
-void	child(t_data *data, char *cmd, int n, char **ep);
 
 //parse.c
 int		find_cmd(t_data *data, int n);
 void	parse_cmd(char *cmd, t_data *data, int n);
 void	assign_data(t_data *data, char **av, char **ep, int ac);
 void	init_data(t_data *data, char **av, char **ep, int ac);
-
 #endif
