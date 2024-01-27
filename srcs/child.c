@@ -81,6 +81,17 @@ void	close_pipes(t_data *data, int n)
 	}
 }
 
+//void	ft_putstr_fd(char *s, int fd)
+//{
+//	size_t	i;
+//
+//	if (!s)
+//		return ;
+//	i = 0;
+//	while (s[i])
+//		write(fd, s + i++, 1);
+//}
+
 void	child(t_data *data, char *cmd, int n, char **ep)
 {
 	pid_t		pid;

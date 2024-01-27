@@ -25,5 +25,6 @@ int	main(int ac, char **av, char **ep)
 	}
 	child(&data, av[2], 0, ep);
 	child(&data, av[3], 1, ep);
+//	waitpid(-1, &data.status, 0);
 	error_exit("OK", &data);
 }

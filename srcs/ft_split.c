@@ -10,16 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-static int	is_sep(char c, char sep)
+int	is_sep(char c, char sep)
 {
 	if (c == sep)
 		return (1);
 	return (0);
 }
 
-static int	count_str(char const *str, char sep)
+int	count_str(char const *str, char sep)
 {
 	int	i;
 	int	res;
@@ -35,7 +35,7 @@ static int	count_str(char const *str, char sep)
 	return (res);
 }
 
-static int	count_strlen(char const *str, char sep, int n)
+int	count_strlen(char const *str, char sep, int n)
 {
 	int	i;
 	int	counter;
@@ -55,7 +55,7 @@ static int	count_strlen(char const *str, char sep, int n)
 	return (res);
 }
 
-static char	*save_str(char const *str, char sep, int n)
+char	*save_str(char const *str, char sep, int n)
 {
 	int		i;
 	int		j;

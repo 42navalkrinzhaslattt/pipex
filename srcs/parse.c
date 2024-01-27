@@ -17,7 +17,7 @@ void	assign_data(t_data *data, char **av, char **ep, int ac)
 {
 	data->infile = open(av[1], O_RDONLY);
 	data->outfile = open(av[ac - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (data->infile == -1 || data->outfile == -1)// remove infile error
+	if (data->infile == -1 || data->outfile == -1) // remove infile error
 		error_exit("open", data);
 	data->cmd = ft_calloc(data->nb_cmd, sizeof(t_cmd));
 	while (*ep)
