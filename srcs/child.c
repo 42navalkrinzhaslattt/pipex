@@ -14,6 +14,8 @@
 
 void	redirect(int input_fd, int output_fd, t_data *data)
 {
+	if (input_fd == -1)
+		exit(EXIT_FAILURE);
 	if (dup2(input_fd, 0) == -1)
 		error_exit("dup2", data);
 	if (dup2(output_fd, 1) == -1)
@@ -62,56 +64,4 @@ void	parse_cmd(char *cmd, t_data *data, int n)
 		error_exit(cmd, NULL);
 		exit(0);
 	}
-}
-
-void	close_pipes(t_data *data, int n)
-{
-	int	i;
-
-	if (n == 0)
-		close(data->pipefd[0]);
-	else if (n == data->nb_cmd - 1)
-		close(data->pipefd[1]);
-	else
-	{
-		i = -1;
-		while (++i < ((data->nb_cmd - 1) * 2)
-			&& i != n * 2 - 2 && i != n * 2 + 1)
-			close(data->pipefd[i]);
-	}
-}
-
-//void	ft_putstr_fd(char *s, int fd)
-//{
-//	size_t	i;
-//
-//	if (!s)
-//		return ;
-//	i = 0;
-//	while (s[i])
-//		write(fd, s + i++, 1);
-//}
-
-void	child(t_data *data, char *cmd, int n, char **ep)
-{
-	pid_t		pid;
-
-	pid = fork();
-	if (pid == -1)
-		error_exit("fork", data);
-	if (pid == 0)
-	{
-		if (n == 0)
-			redirect(data->infile, data->pipefd[1], data);
-		else if (n == data->nb_cmd - 1)
-			redirect(data->pipefd[data->nb_cmd * 2 - 4], data->outfile, data);
-		else
-			redirect(data->pipefd[n * 2 - 2], data->pipefd[n * 2 + 1], data);
-		close_pipes(data, n);
-		parse_cmd(cmd, data, n);
-		execve(data->cmd[n].path, data->cmd[n].argv, ep);
-		error_exit("execve", data);
-	}
-	else
-		waitpid(pid, &data->status, 0);
 }

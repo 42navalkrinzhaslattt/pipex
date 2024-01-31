@@ -13,6 +13,20 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 # define BUFF_SIZE 1024
+
+# define INV_ARGC_MSG "wrong number of arguments"
+
+# define E_INV_ARGC 1
+# define E_MALLOC 2
+# define E_PIPE 3
+
+# define FD_FILE_IN 1
+# define FD_PIPE_IN 2
+# define FD_PREV_IN 4
+# define FD_FILE_OUT 8
+# define FD_PIPE_OUT 16
+# define ST_SAVE 32
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stddef.h>
@@ -33,13 +47,15 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
-	int		*pipefd;
-	int		infile;
-	int		outfile;
+	int		pipefd[2];
+	char	*infile;
+	char	*outfile;
 	char	**paths;
-	t_cmd	*cmd;
-	int		nb_cmd;
-	int		status;
+	char	**envp;
+	int		prev_fd_in;
+	int		last_status;
+	pid_t	last_pid;
+	t_cmd	cmd;
 }	t_data;
 
 //child.c
@@ -49,7 +65,7 @@ void	child(t_data *data, char *cmd, int n, char **ep);
 
 //exit.c
 void	free_cmd(t_cmd *cmd);
-void	error_exit(char *str, t_data *data);
+int		error_exit(char *str, t_data *data);
 
 //ft_split.c
 int		is_sep(char c, char sep);
