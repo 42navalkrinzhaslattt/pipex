@@ -1,6 +1,6 @@
 NAME	= pipex
 
-SRC		= pipex.c exit.c ft_split.c utils.c child.c parse.c
+SRC		= pipex.c ft_split.c utils.c utils2.c child.c
 
 #BONUS_SRC	=
 
@@ -24,7 +24,7 @@ CFLAGS	= -Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -fsanitize=address -g -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
 #bonus: $(BONUS_OBJ)
 #	$(CC) $(CFLAGS) $(BONUS_OBJ) -fsanitize=address -g -o $(NAME)

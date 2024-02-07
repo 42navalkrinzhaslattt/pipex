@@ -12,14 +12,14 @@
 
 #include "pipex.h"
 
-int	is_sep(char c, char sep)
+static int	is_sep(char c, char sep)
 {
 	if (c == sep)
 		return (1);
 	return (0);
 }
 
-int	count_str(char const *str, char sep)
+static int	count_str(char const *str, char sep)
 {
 	int	i;
 	int	res;
@@ -35,7 +35,7 @@ int	count_str(char const *str, char sep)
 	return (res);
 }
 
-int	count_strlen(char const *str, char sep, int n)
+static int	count_strlen(char const *str, char sep, int n)
 {
 	int	i;
 	int	counter;
@@ -55,7 +55,7 @@ int	count_strlen(char const *str, char sep, int n)
 	return (res);
 }
 
-char	*save_str(char const *str, char sep, int n)
+static char	*save_str(char const *str, char sep, int n)
 {
 	int		i;
 	int		j;

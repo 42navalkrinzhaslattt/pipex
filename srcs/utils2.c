@@ -27,8 +27,8 @@ void	free_cmd(t_cmd *cmd)
 {
 	int	i;
 
-	if (cmd->name)
-		free(cmd->name);
+	if (cmd->file)
+		free(cmd->file);
 	if (cmd->path)
 		free(cmd->path);
 	if (cmd->argv)
@@ -38,6 +38,9 @@ void	free_cmd(t_cmd *cmd)
 			free(cmd->argv[i]);
 		free(cmd->argv);
 	}
+	cmd->file = NULL;
+	cmd->path = NULL;
+	cmd->argv = NULL;
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)

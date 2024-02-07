@@ -12,6 +12,19 @@
 
 #include "pipex.h"
 
+void	free_arr(void	**arr)
+{
+	int	i;
+
+	i = -1;
+	if (arr)
+		while (arr[++i])
+			if (arr[i])
+				free(arr[i]);
+	if (arr)
+		free(arr);
+}
+
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
