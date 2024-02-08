@@ -17,7 +17,7 @@
 # define INV_ARGC_MSG "wrong number of arguments\n"
 # define EMPTY_CMD_MSG "empty command\n"
 # define INV_CMD_MSG "command not found\n"
-# define PATH_PERM_MSG "Permission denied\n"
+# define PATH_PERM_MSG "permission denied\n"
 
 # define E_INV_ARGC 1
 # define E_MALLOC_FAIL 2
@@ -36,7 +36,6 @@
 # define FD_FILE_OUT 8
 # define FD_PIPE_OUT 16
 # define ST_SAVE 32
-
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -75,11 +74,11 @@ char	**ft_split(char const *s, char c);
 
 //pipex.c
 void	ft_error(char *cmd, char *msg, t_data *data, int flag);
-int	main(int ac, char **av, char **ep);
+int		main(int ac, char **av, char **ep);
 
 //utils.c
 void	free_arr(void	**arr);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 size_t	ft_strlen(const char *s);

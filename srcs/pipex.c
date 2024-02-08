@@ -50,12 +50,12 @@ void	ft_error(char *cmd, char *msg, t_data *data, int flag)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(msg, 2);
 		if (flag == E_OPEN_FAIL)
-			perror("");
+			perror(msg);
+		else
+			ft_putstr_fd(msg, 2);
 	}
 	free_arr((void **)data->paths);
-	free_arr((void **)data->envp);
 	free_cmd(&data->cmd);
 	exit(flag);
 }
@@ -74,7 +74,8 @@ int	main(int ac, char **av, char **ep)
 	init_data(&data, av, ep, ac);
 	run_pipeline(av, &data);
 	while (wait(&status) > 0)
-	{}
+	{
+	}
 	free_arr((void **)data.paths);
 	return (WEXITSTATUS(status));
 }
