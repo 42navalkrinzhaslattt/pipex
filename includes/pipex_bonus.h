@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/27 21:33:15 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/01/27 21:33:15 by nam-vu           ###   ########.fr       */
+/*   Created: 2024/02/09 19:52:15 by nam-vu            #+#    #+#             */
+/*   Updated: 2024/02/09 19:52:15 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 # define BUFF_SIZE 1024
 
 # define INV_ARGC_MSG "wrong number of arguments\n"
@@ -29,6 +29,7 @@
 # define E_INV_CMD_FAIL 8
 # define E_PATH_PERM 9
 # define E_EXECVE_FAIL 10
+# define E_DUP_FAIL 11
 
 # define FD_FILE_IN 1
 # define FD_PIPE_IN 2
@@ -36,6 +37,10 @@
 # define FD_FILE_OUT 8
 # define FD_PIPE_OUT 16
 
+# define FLAG_PATH_PERM 1
+# define FLAG_INV_CMD_FAIL 2
+
+# include "get_next_line.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stddef.h>
@@ -63,11 +68,18 @@ typedef struct s_data
 	char	**envp;
 	int		heredoc;
 	int		prev_fd_in;
+	int		cmd_flag;
 	t_cmd	cmd;
 }	t_data;
 
+//heredoc.c
+void	heredoc_child(t_data *data, char *limiter);
+void	heredoc(char *limiter, t_data *data);
+
 //child.c
-void	create_child(char *cmd, int flag, t_data *data);
+void	parse_cmd(char *cmd, t_data *data);
+int		find_cmd(t_data *data);
+void	create_child(int flag, t_data *data);
 
 //ft_split.c
 char	**ft_split(char const *s, char c);
