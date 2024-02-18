@@ -85,9 +85,6 @@ void	ft_error(char *cmd, char *msg, t_data *data, int flag)
 		if (flag == E_OPEN_FAIL)
 			perror(msg);
 		else
-<<<<<<< HEAD
-			ft_putstr_fd(msg, 2);
-=======
 		{
 			ft_putstr_fd(msg, 2);
 			if (flag == E_INV_CMD_FAIL || flag == E_EMPTY_CMD
@@ -97,7 +94,6 @@ void	ft_error(char *cmd, char *msg, t_data *data, int flag)
 				ft_putstr_fd("\n", 2);
 			}
 		}
->>>>>>> e6eb84a (heredoc fixed)
 	}
 	free_arr((void **)data->paths);
 	free_cmd(&data->cmd);

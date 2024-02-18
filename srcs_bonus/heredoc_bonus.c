@@ -15,11 +15,7 @@
 void	heredoc_child(t_data *data, char *limiter)
 {
 	char	*line;
-<<<<<<< HEAD
-	char	line_len;
-=======
 	size_t	line_len;
->>>>>>> e6eb84a (heredoc fixed)
 
 	close(data->pipefd[0]);
 	write(1, "heredoc> ", 10);
@@ -28,12 +24,8 @@ void	heredoc_child(t_data *data, char *limiter)
 	{
 		line_len = ft_strlen(line);
 		write(data->pipefd[1], line, line_len);
-<<<<<<< HEAD
-		if (!ft_strncmp(line, limiter, line_len - 1)
-=======
 		if (line_len == ft_strlen(limiter) + 1
 			&& !ft_strncmp(line, limiter, line_len - 1)
->>>>>>> e6eb84a (heredoc fixed)
 			&& !ft_strncmp(line + line_len - 1, "\n\0", 2))
 		{
 			free(line);
