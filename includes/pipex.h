@@ -16,8 +16,13 @@
 
 # define INV_ARGC_MSG "wrong number of arguments\n"
 # define EMPTY_CMD_MSG "empty command\n"
+<<<<<<< HEAD
 # define INV_CMD_MSG "command not found\n"
 # define PATH_PERM_MSG "permission denied\n"
+=======
+# define INV_CMD_MSG "command not found: "
+# define PATH_PERM_MSG "permission denied: "
+>>>>>>> e6eb84a (heredoc fixed)
 
 # define E_INV_ARGC 1
 # define E_MALLOC_FAIL 2
